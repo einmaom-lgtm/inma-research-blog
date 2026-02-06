@@ -1,0 +1,77 @@
+---
+title: "Estadística Descriptiva: Exploración y Calidad del Dato"
+author: "Inmaculada Osuna"
+date: "2026-01-16"
+categories: [EDA, Estadística, R, DataViz]
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+Antes de cualquier modelización, es imperativo realizar un análisis exploratorio de datos (EDA) para comprender la estructura subyacente y detectar anomalías. En este reporte analizamos las variables biométricas del conjunto de datos palmerpenguins.
+
+**1. Ingeniería de Datos y Preprocesamiento**
+
+Cargamos las librerías necesarias y realizamos una limpieza de datos para eliminar valores ausentes (NA), garantizando la robustez de los estadísticos descriptivos.
+
+```{r}
+#| label: setup
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(gt)
+library(skimr)
+
+data("penguins")
+
+#Limpieza: Eliminamos filas con valores nulos
+penguins_clean <- penguins |> drop_na()
+
+#Estructura del dataset
+glimpse(penguins_clean)
+```
+
+**2.Visualización de la Distribución**
+
+Analizamos la distribución de la longitud del pico mediante curvas de densidad. Este enfoque nos permite comparar la forma de las distribuciones entre especies de manera más suave que un histograma.
+
+```{r}
+#| label: density-plot
+#| warning: false
+
+ggplot(penguins_clean, aes(x = bill_length_mm, fill = species)) +
+  geom_density(alpha = 0.6) +
+  scale_fill_manual(values = c("#3b82f6", "#ef4444", "#10b981")) +
+  labs(title = "Distribución de la Longitud del Pico",
+       subtitle = "Análisis de densidad por especie",
+       x = "Longitud de Pico (mm)",
+       y = "Densidad") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+**3. Resumen Estadístico Académico** Presentamos las medidas de centralización (media) y dispersión (desviación típica) en una tabla formateada profesionalmente con la librería gt.
+
+```{r}
+#| label: tabla-resumen
+
+penguins_clean |> 
+  group_by(species) |> 
+  summarise(
+    N = n(),
+    Media_Peso = mean(body_mass_g),
+    SD_Peso = sd(body_mass_g),
+    Media_Aleta = mean(flipper_length_mm),
+    .groups = 'drop'
+  ) |> 
+  gt() |> 
+  tab_header(
+    title = md("**Estadísticos Descriptivos por Especie**"),
+    subtitle = "Variables: Peso y Longitud de Aleta"
+  ) |> 
+  fmt_number(columns = contains("Media"), decimals = 2) |> 
+  fmt_number(columns = contains("SD"), decimals = 2)
+```

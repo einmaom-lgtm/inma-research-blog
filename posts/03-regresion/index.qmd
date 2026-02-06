@@ -1,0 +1,68 @@
+---
+title: "Modelización Predictiva: Regresión Lineal Múltiple"
+author: "Inmaculada Osuna"
+date: "2026-01-16"
+categories: [Regresión, Machine Learning, Modelización]
+format:
+  html:
+    code-fold: true
+---
+
+Desarrollamos un modelo predictivo para estimar la masa corporal ($Y$) basándonos en las dimensiones del pico y la aleta.
+
+**1. Ajuste del Modelo**
+
+Utilizamos Mínimos Cuadrados Ordinarios (OLS) para estimar los coeficientes.
+
+```{r}
+#| label: regression-setup
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(stargazer)
+library(car)
+
+penguins_clean <- penguins |> drop_na()
+
+#Modelo de Regresión Múltiple
+modelo_lm <- lm(body_mass_g ~ flipper_length_mm + bill_length_mm + bill_depth_mm, 
+                data = penguins_clean)
+modelo_lm
+```
+
+**2. Resultados del Modelo**
+
+Presentamos la tabla de regresión con formato académico estándar.
+
+```{r}
+#| label: results-table
+#| results: asis
+#| warning: false
+#| message: false
+
+
+stargazer(modelo_lm, type = "html", 
+          title = "Resultados de Regresión OLS", 
+          style = "default", 
+          ci = TRUE, 
+          single.row = TRUE)
+```
+
+
+**3. Diagnóstico de Multicolinealidad (VIF)**
+
+Como paso crítico en la validación, comprobamos que no exista multicolinealidad grave entre los predictores usando el Factor de Inflación de la Varianza (VIF).
+
+```{r}
+#| label: vif-plot
+
+vif_values <- vif(modelo_lm)
+
+barplot(vif_values, 
+        main = "Diagnóstico VIF (Multicolinealidad)", 
+        col = ifelse(vif_values > 5, "red", "steelblue"),
+        ylim = c(0, 5))
+abline(h = 5, col = "red", lty = 2)
+```

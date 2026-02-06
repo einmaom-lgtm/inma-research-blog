@@ -1,0 +1,39 @@
+---
+title: "Un poco sobre mí"
+subtitle: "Matemática | Data Scientist en formación | Data Engineer"
+image: profile.jpg
+about:
+  template: jolla
+  image-width: 15em
+  image-shape: round
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: www.linkedin.com/in/inmaculada-osuna-muñoz-842664364
+    - icon: envelope
+      text: Email
+      href: mailto:inmamuba@gmail.com
+    - icon: file-earmark-person
+      text: Mi CV
+      href: cv.qmd
+---
+
+👋 **¡Hola! Soy Inmaculada.**
+
+Soy graduada en Matemáticas por la Universidad de Granada y una apasionada de encontrar patrones donde otros solo ven números. Me muevo en la intersección entre la estadística rigurosa, la ingeniería de datos y la inteligencia artificial.
+
+🎓 **Formación Actual**
+
+Actualmente estoy ampliando mis horizontes con un Doble Máster Simultáneo: Modelización avanzada en Big Data e IA (UCM) + Técnicas Cuantitativas para la empresa (UGR).
+
+🚀 **Experiencia Tech**
+
+Mi paso por el Bootcamp de Google Cloud & T-Systems transformó mi visión teórica en práctica: aprendí a dominar la nube, crear procesos ETL y desplegar soluciones de Data Engineering escalables.
+
+🕌 **Matemáticas y Arte**
+
+Tengo un interés especial en la divulgación científica. Mi TFG, centrado en los mosaicos de la Alhambra, fue mi forma de demostrar que la belleza y la geometría hablan el mismo idioma.
+
+📊 **Sobre este blog**
+
+Este es mi laboratorio personal. Aquí compartiré mis proyectos de análisis, visualizaciones en R y scripts en Python. ¡Bienvenido/a!

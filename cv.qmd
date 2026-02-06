@@ -1,0 +1,27 @@
+---
+title: "Curriculum Vitae completo"
+format:
+  html:
+    toc: true
+    css: styles.css
+---
+
+## Formación Académica
+
+-   **Grado en Matemáticas** \| Universidad de Granada (2020 - 2025)
+-   **Máster en Big Data, Ciencia de Datos e Inteligencia Artificial** \| Universidad Complutense de Madrid (En curso)
+-   **Máster en Técnicas Cuantitativas en la Gestión Empresarial** \| Universidad de Granada (En curso)
+-   **Bootcamp Data Engineering** \| Fundación AI Granada, T-Systems y Google Cloud
+
+## Habilidades Técnicas
+
+-   **Lenguajes de Programación:** R, Python, C++.
+-   **Bases de Datos:** SQL y NoSQL.
+-   **Ingeniería de Datos:** Procesos ETL, Docker, Preprocesamiento y limpieza.
+-   **Software Estadístico:** Stata, SPSS.
+-   **Otros:** LaTeX, Git.
+
+## Idiomas
+
+-   **Español:** Nativo.
+-   **Inglés:** Nivel C1.

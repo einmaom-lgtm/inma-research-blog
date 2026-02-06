@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "posts/03-regresion/index.html",
+    "href": "posts/03-regresion/index.html",
+    "title": "Modelización Predictiva: Regresión Lineal Múltiple",
+    "section": "",
+    "text": "Desarrollamos un modelo predictivo para estimar la masa corporal (\\(Y\\)) basándonos en las dimensiones del pico y la aleta.\n1. Ajuste del Modelo\nUtilizamos Mínimos Cuadrados Ordinarios (OLS) para estimar los coeficientes.\n\n\nCode\nlibrary(tidyverse)\nlibrary(palmerpenguins)\nlibrary(stargazer)\nlibrary(car)\n\npenguins_clean &lt;- penguins |&gt; drop_na()\n\n# Modelo de Regresión Múltiple\nmodelo_lm &lt;- lm(body_mass_g ~ flipper_length_mm + bill_length_mm + bill_depth_mm, \n                data = penguins_clean)\nmodelo_lm\n\n\n\nCall:\nlm(formula = body_mass_g ~ flipper_length_mm + bill_length_mm + \n    bill_depth_mm, data = penguins_clean)\n\nCoefficients:\n      (Intercept)  flipper_length_mm     bill_length_mm      bill_depth_mm  \n        -6445.476             50.762              3.293             17.836  \n\n\n2. Resultados del Modelo\nPresentamos la tabla de regresión con formato académico estándar.\n\nCode\nstargazer(modelo_lm, type = \"html\", \n          title = \"Resultados de Regresión OLS\", \n          style = \"default\", \n          ci = TRUE, \n          single.row = TRUE)\n\n\n\nResultados de Regresión OLS\n\n\n\n\n\n\n\n\n\nDependent variable:\n\n\n\n\n\n\n\n\n\n\n\n\nbody_mass_g\n\n\n\n\n\n\n\n\nflipper_length_mm\n\n\n50.762*** (45.868, 55.657)\n\n\n\n\nbill_length_mm\n\n\n3.293 (-7.224, 13.810)\n\n\n\n\nbill_depth_mm\n\n\n17.836 (-9.262, 44.935)\n\n\n\n\nConstant\n\n\n-6,445.476*** (-7,555.071, -5,335.882)\n\n\n\n\n\n\n\n\nObservations\n\n\n333\n\n\n\n\nR2\n\n\n0.764\n\n\n\n\nAdjusted R2\n\n\n0.762\n\n\n\n\nResidual Std. Error\n\n\n393.005 (df = 329)\n\n\n\n\nF Statistic\n\n\n354.898*** (df = 3; 329)\n\n\n\n\n\n\n\n\nNote:\n\n\np&lt;0.1; p&lt;0.05; p&lt;0.01\n\n\n\n3. Diagnóstico de Multicolinealidad (VIF)\nComo paso crítico en la validación, comprobamos que no exista multicolinealidad grave entre los predictores usando el Factor de Inflación de la Varianza (VIF).\n\n\nCode\nvif_values &lt;- vif(modelo_lm)\n\nbarplot(vif_values, \n        main = \"Diagnóstico VIF (Multicolinealidad)\", \n        col = ifelse(vif_values &gt; 5, \"red\", \"steelblue\"),\n        ylim = c(0, 5))\nabline(h = 5, col = \"red\", lty = 2)"
+  },
+  {
+    "objectID": "posts/01-descriptiva/index.html",
+    "href": "posts/01-descriptiva/index.html",
+    "title": "Estadística Descriptiva: Exploración y Calidad del Dato",
+    "section": "",
+    "text": "Antes de cualquier modelización, es imperativo realizar un análisis exploratorio de datos (EDA) para comprender la estructura subyacente y detectar anomalías. En este reporte analizamos las variables biométricas del conjunto de datos palmerpenguins.\n1. Ingeniería de Datos y Preprocesamiento\nCargamos las librerías necesarias y realizamos una limpieza de datos para eliminar valores ausentes (NA), garantizando la robustez de los estadísticos descriptivos.\n\n\nCode\nlibrary(tidyverse)\nlibrary(palmerpenguins)\nlibrary(gt)\nlibrary(skimr)\n\ndata(\"penguins\")\n\n# Limpieza: Eliminamos filas con valores nulos\npenguins_clean &lt;- penguins |&gt; drop_na()\n\n# Estructura del dataset\nglimpse(penguins_clean)\n\n\nRows: 333\nColumns: 8\n$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…\n$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…\n$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, 36.7, 39.3, 38.9, 39.2, 41.1, 38.6…\n$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, 19.3, 20.6, 17.8, 19.6, 17.6, 21.2…\n$ flipper_length_mm &lt;int&gt; 181, 186, 195, 193, 190, 181, 195, 182, 191, 198, 18…\n$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, 3450, 3650, 3625, 4675, 3200, 3800…\n$ sex               &lt;fct&gt; male, female, female, female, male, female, male, fe…\n$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…\n\n\n2.Visualización de la Distribución\nAnalizamos la distribución de la longitud del pico mediante curvas de densidad. Este enfoque nos permite comparar la forma de las distribuciones entre especies de manera más suave que un histograma.\n\n\nCode\nggplot(penguins_clean, aes(x = bill_length_mm, fill = species)) +\n  geom_density(alpha = 0.6) +\n  scale_fill_manual(values = c(\"#3b82f6\", \"#ef4444\", \"#10b981\")) +\n  labs(title = \"Distribución de la Longitud del Pico\",\n       subtitle = \"Análisis de densidad por especie\",\n       x = \"Longitud de Pico (mm)\",\n       y = \"Densidad\") +\n  theme_minimal() +\n  theme(legend.position = \"top\")\n\n\n\n\n\n\n\n\n\n3. Resumen Estadístico Académico  Presentamos las medidas de centralización (media) y dispersión (desviación típica) en una tabla formateada profesionalmente con la librería gt.\n\n\nCode\npenguins_clean |&gt; \n  group_by(species) |&gt; \n  summarise(\n    N = n(),\n    Media_Peso = mean(body_mass_g),\n    SD_Peso = sd(body_mass_g),\n    Media_Aleta = mean(flipper_length_mm),\n    .groups = 'drop'\n  ) |&gt; \n  gt() |&gt; \n  tab_header(\n    title = md(\"**Estadísticos Descriptivos por Especie**\"),\n    subtitle = \"Variables: Peso y Longitud de Aleta\"\n  ) |&gt; \n  fmt_number(columns = contains(\"Media\"), decimals = 2) |&gt; \n  fmt_number(columns = contains(\"SD\"), decimals = 2)\n\n\n\n\n\n\n\n\nEstadísticos Descriptivos por Especie\n\n\nVariables: Peso y Longitud de Aleta\n\n\nspecies\nN\nMedia_Peso\nSD_Peso\nMedia_Aleta\n\n\n\n\nAdelie\n146\n3,706.16\n458.62\n190.10\n\n\nChinstrap\n68\n3,733.09\n384.34\n195.82\n\n\nGentoo\n119\n5,092.44\n501.48\n217.24"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae completo",
+    "section": "",
+    "text": "Grado en Matemáticas | Universidad de Granada (2020 - 2025)\nMáster en Big Data, Ciencia de Datos e Inteligencia Artificial | Universidad Complutense de Madrid (En curso)\nMáster en Técnicas Cuantitativas en la Gestión Empresarial | Universidad de Granada (En curso)\nBootcamp Data Engineering | Fundación AI Granada, T-Systems y Google Cloud"
+  },
+  {
+    "objectID": "cv.html#formación-académica",
+    "href": "cv.html#formación-académica",
+    "title": "Curriculum Vitae completo",
+    "section": "",
+    "text": "Grado en Matemáticas | Universidad de Granada (2020 - 2025)\nMáster en Big Data, Ciencia de Datos e Inteligencia Artificial | Universidad Complutense de Madrid (En curso)\nMáster en Técnicas Cuantitativas en la Gestión Empresarial | Universidad de Granada (En curso)\nBootcamp Data Engineering | Fundación AI Granada, T-Systems y Google Cloud"
+  },
+  {
+    "objectID": "cv.html#habilidades-técnicas",
+    "href": "cv.html#habilidades-técnicas",
+    "title": "Curriculum Vitae completo",
+    "section": "Habilidades Técnicas",
+    "text": "Habilidades Técnicas\n\nLenguajes de Programación: R, Python, C++.\nBases de Datos: SQL y NoSQL.\nIngeniería de Datos: Procesos ETL, Docker, Preprocesamiento y limpieza.\nSoftware Estadístico: Stata, SPSS.\nOtros: LaTeX, Git."
+  },
+  {
+    "objectID": "cv.html#idiomas",
+    "href": "cv.html#idiomas",
+    "title": "Curriculum Vitae completo",
+    "section": "Idiomas",
+    "text": "Idiomas\n\nEspañol: Nativo.\nInglés: Nivel C1."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Un poco sobre mí",
+    "section": "",
+    "text": "👋 ¡Hola! Soy Inmaculada.\nSoy graduada en Matemáticas por la Universidad de Granada y una apasionada de encontrar patrones donde otros solo ven números. Me muevo en la intersección entre la estadística rigurosa, la ingeniería de datos y la inteligencia artificial.\n🎓 Formación Actual\nActualmente estoy ampliando mis horizontes con un Doble Máster Simultáneo: Modelización avanzada en Big Data e IA (UCM) + Técnicas Cuantitativas para la empresa (UGR).\n🚀 Experiencia Tech\nMi paso por el Bootcamp de Google Cloud & T-Systems transformó mi visión teórica en práctica: aprendí a dominar la nube, crear procesos ETL y desplegar soluciones de Data Engineering escalables.\n🕌 Matemáticas y Arte\nTengo un interés especial en la divulgación científica. Mi TFG, centrado en los mosaicos de la Alhambra, fue mi forma de demostrar que la belleza y la geometría hablan el mismo idioma.\n📊 Sobre este blog\nEste es mi laboratorio personal. Aquí compartiré mis proyectos de análisis, visualizaciones en R y scripts en Python. ¡Bienvenido/a!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "LAS MATEMÁTICAS MOLAN",
+    "section": "",
+    "text": "Estadística Descriptiva: Exploración y Calidad del Dato\n\n\n\nEDA\n\nEstadística\n\nR\n\nDataViz\n\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nInmaculada Osuna\n\n\n\n\n\n\n\n\n\n\n\n\nInferencia Estadística: ANOVA y Contrastes\n\n\n\nInferencia\n\nANOVA\n\nMatemáticas\n\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nInmaculada Osuna\n\n\n\n\n\n\n\n\n\n\n\n\nModelización Predictiva: Regresión Lineal Múltiple\n\n\n\nRegresión\n\nMachine Learning\n\nModelización\n\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nInmaculada Osuna\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/02-inferencia/index.html",
+    "href": "posts/02-inferencia/index.html",
+    "title": "Inferencia Estadística: ANOVA y Contrastes",
+    "section": "",
+    "text": "El objetivo es determinar si existen diferencias estadísticamente significativas en la masa corporal entre las tres especies. Para ello, utilizamos un Análisis de la Varianza (ANOVA) de un factor.\n1. Validación de Supuestos\nPara que el ANOVA sea válido, verificamos la homocedasticidad (igualdad de varianzas) mediante el test de Levene.\n\n\nCode\nlibrary(tidyverse)\nlibrary(palmerpenguins)\nlibrary(car)\n\npenguins_clean &lt;- penguins |&gt; drop_na()\n\n# Test de Levene\nleveneTest(body_mass_g ~ species, data = penguins_clean)\n\n\nLevene's Test for Homogeneity of Variance (center = median)\n       Df F value   Pr(&gt;F)   \ngroup   2  5.1349 0.006367 **\n      330                    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n2. Modelo ANOVA\nAjustamos el modelo lineal.\n\n\nCode\nmodelo_anova &lt;- aov(body_mass_g ~ species, data = penguins_clean)\nsummary(modelo_anova)\n\n\n             Df    Sum Sq  Mean Sq F value Pr(&gt;F)    \nspecies       2 145190219 72595110   341.9 &lt;2e-16 ***\nResiduals   330  70069447   212332                   \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nResultado: Dado que el p-valor es extremadamente bajo, rechazamos la hipótesis nula (H_0). Existen diferencias significativas.\n3. Análisis Post-Hoc (Tukey)\nPara identificar qué pares de especies son diferentes, aplicamos el test de Tukey. Visualizamos los intervalos de confianza al 95%.\n\n\nCode\ntukey &lt;- TukeyHSD(modelo_anova)\n\nplot(tukey, col = \"darkred\", las = 1)\ntitle(main = \"Diferencia de Medias (IC 95%)\")"
+  }
+]

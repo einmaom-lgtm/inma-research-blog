@@ -1,0 +1,56 @@
+---
+title: "Inferencia Estadística: ANOVA y Contrastes"
+author: "Inmaculada Osuna"
+date: "2026-01-16"
+categories: [Inferencia, ANOVA, Matemáticas]
+format:
+  html:
+    code-fold: show
+---
+
+El objetivo es determinar si existen diferencias estadísticamente significativas en la masa corporal entre las tres especies. Para ello, utilizamos un Análisis de la Varianza (ANOVA) de un factor.
+
+**1. Validación de Supuestos**
+
+Para que el ANOVA sea válido, verificamos la homocedasticidad (igualdad de varianzas) mediante el test de Levene.
+
+```{r}
+#| label: librerias-inf
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(palmerpenguins)
+library(car)
+
+penguins_clean <- penguins |> drop_na()
+
+#Test de Levene
+leveneTest(body_mass_g ~ species, data = penguins_clean)
+```
+
+**2. Modelo ANOVA**
+
+Ajustamos el modelo lineal.
+
+```{r}
+#| label: anova-model
+
+modelo_anova <- aov(body_mass_g ~ species, data = penguins_clean)
+summary(modelo_anova)
+```
+
+Resultado: Dado que el p-valor es extremadamente bajo, rechazamos la hipótesis nula (H_0). Existen diferencias significativas.
+
+**3. Análisis Post-Hoc (Tukey)**
+
+Para identificar qué pares de especies son diferentes, aplicamos el test de Tukey. Visualizamos los intervalos de confianza al 95%.
+
+```{r}
+#| label: tukey-plot
+
+tukey <- TukeyHSD(modelo_anova)
+
+plot(tukey, col = "darkred", las = 1)
+title(main = "Diferencia de Medias (IC 95%)")
+```
