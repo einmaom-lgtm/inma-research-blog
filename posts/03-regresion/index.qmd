@@ -50,7 +50,6 @@ stargazer(modelo_lm, type = "html",
           single.row = TRUE)
 ```
 
-
 **3. Diagnóstico de Multicolinealidad (VIF)**
 
 Como paso crítico en la validación, comprobamos que no exista multicolinealidad grave entre los predictores usando el Factor de Inflación de la Varianza (VIF).
