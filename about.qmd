@@ -16,7 +16,7 @@ about:
       href: mailto:inmamuba@gmail.com
     - icon: file-earmark-person
       text: Mi CV
-      href: cv.qmd
+      href: cv.html
 ---
 
 👋 **¡Hola! Soy Inmaculada.**
