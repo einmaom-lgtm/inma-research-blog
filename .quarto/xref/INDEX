@@ -1,26 +1,20 @@
 {
   "about.qmd": {
-    "about.html": "5c1460df"
+    "about.html": "2e5b9ea3"
   },
   "cv.qmd": {
-    "cv.html": "4c4c1670"
+    "cv.html": "60d2aa84"
   },
   "index.qmd": {
-    "index.html": "a57f7c27"
+    "index.html": "90851232"
   },
   "posts/01-descriptiva/index.qmd": {
-    "index.html": "9dcedcfc"
+    "index.html": "fe790050"
   },
   "posts/02-inferencia/index.qmd": {
-    "index.html": "c11b3d33"
+    "index.html": "f4387ff9"
   },
   "posts/03-regresion/index.qmd": {
-    "index.html": "ba163ae5"
-  },
-  "posts/post-with-code/index.qmd": {
-    "index.html": "77aaad81"
-  },
-  "posts/welcome/index.qmd": {
-    "index.html": "acdc918e"
+    "index.html": "0b5f290d"
   }
 }
