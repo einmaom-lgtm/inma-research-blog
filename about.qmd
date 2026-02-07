@@ -10,6 +10,7 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/inmaculada-osuna-muñoz-842664364
+
     - icon: envelope
       text: Email
       href: mailto:inmamuba@gmail.com
