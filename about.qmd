@@ -9,7 +9,7 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: https://www.linkedin.com/in/inmaculada-osuna-muñoz-842664364
+      href: https://www.linkedin.com/in/inmaculada-osuna-mu%C3%B1oz-842664364/
 
     - icon: envelope
       text: Email
