@@ -10,7 +10,8 @@ website:
       - cv.qmd
       - icon: linkedin
         href: https://www.linkedin.com/in/inmaculada-osuna-muñoz-842664364
-
+        aria-label: LinkedIn
+        
 format:
   html:
     theme: cosmo
