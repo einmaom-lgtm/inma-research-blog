@@ -14,9 +14,6 @@ about:
     - icon: envelope
       text: Email
       href: mailto:inmamuba@gmail.com
-    - icon: file-earmark-person
-      text: Mi CV
-      href: cv.qmd
 ---
 
 👋 **¡Hola! Soy Inmaculada.**
